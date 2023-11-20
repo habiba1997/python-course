@@ -10,6 +10,14 @@ def homepage(request):
 
         task = Task(name=name, priority=priority)
         task.save()
-        redirect('/')
     tasks = Task.objects.all()
     return render(request, 'home.html', {'tasks': tasks})
+
+
+def delete(request, taskid):
+    task = Task.objects.get(id=taskid)
+    if request.method == "POST":
+        task.delete()
+        return redirect('/')
+
+    return render(request, 'delete.html')
