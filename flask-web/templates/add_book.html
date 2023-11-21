@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block body %}
+<form method="POST" action="/submit-book" enctype="multipart/form-data">
+    <input type="text" name="name" id="name" placeholder="Enter book name">
+    <input type="text" name="author" id="author" placeholder="Enter book author">
+    <input type="submit">
+</form>
+{% endblock %}

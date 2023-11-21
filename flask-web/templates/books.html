@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block body %}
+{% for book in books %}
+<div class="card" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{book.name}} by {{book.author}}</h5>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
