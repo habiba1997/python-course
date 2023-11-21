@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block body %}
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        Expense Manager
+    </a>
+</nav>
+<br>
+<form class="shadow" action="/add-expense" method="POST">
+    <div class="form-group">
+        <label for="dateInput">Date</label>
+        <input type="date" class="form-control" name="date" id="dateInput">
+    </div>
+    <div class="form-group">
+        <label for="nameInput">Expense Name</label>
+        <input type="text" class="form-control" name="expensename" id="nameInput">
+    </div>
+    <div class="form-group">
+        <label for="amountInput">Expense Amount</label>
+        <input type="text" class="form-control" name="amount" id="amountInput">
+    </div>
+    <div class="form-group">
+        <label for="categoryInput">Expense Category</label>
+        <select class="form-control" name="category" id="categoryInput">
+            <option value="food">Food</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="business">Business</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+<br/>
+<div class="container">
+    <h3>Expenses List </h3>
+    {% for expense in expenses %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow bg-white">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">{{expense.name}}</div>
+                        <div class="col-md-2">{{expense.amount}}</div>
+                        <div class="col-md-2">${{expense.date}}</div>
+                        <div class="col-md-2">
+                            <p>{{expense.category}}</p>
+                        </div>
+                        <div class="col-md-2"><a href="/edit/{{expense.id}}" class="btn btn-sm btn-success">Edit</a>
+                        </div>
+                        <div class="col-md-2"><a href="/delete/{{expense.id}}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Expenses Breakdown </h3>
+            <div class="card shadow bb-2 rounded bg-white">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">Food</div>
+                        <div id="t_food" class="col-md-6">{{t_food}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow bb-2 rounded bg-white">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">Entertainment</div>
+                        <div id="t_entertainment" class="col-md-6">{{t_entertainment}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow bb-2 rounded bg-white">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">Business</div>
+                        <div id="t_business" class="col-md-6">{{t_business}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow bb-2 rounded bg-white">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">Other</div>
+                        <div id="t_other" class="col-md-6">{{t_other}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow bb-2 rounded bg-white">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">Total</div>
+                        <div class="col-md-6">{{total}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <script>
+                const ctx = document.getElementById('myChart');
+                let t_food = document.getElementById('t_food').innerHTML
+                let t_entertainment = document.getElementById('t_entertainment').innerHTML
+                let t_business = document.getElementById('t_business').innerHTML
+                let t_other = document.getElementById('t_other').innerHTML
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Food', 'Entertainment', 'Business', 'Other',],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [t_food, t_entertainment, t_business, t_other],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
