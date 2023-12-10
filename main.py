@@ -1,18 +1,31 @@
-# coding=utf-8
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import json
+import csv
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print("Hi, {0}".format(name))  # Press Ctrl+F8 to toggle the breakpoint.
+def json_to_csv(json_file_path, csv_file_path):
+    with open(json_file_path, 'r') as json_file:
+        data = json.load(json_file)
+
+    with open(csv_file_path, 'w', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file)
+
+        # Write the header
+        header = data[0].keys() if isinstance(data, list) and len(data) > 0 else data.keys()
+        csv_writer.writerow(header)
+
+        # Write the data
+        if isinstance(data, list):
+            for row in data:
+                csv_writer.writerow(row.values())
+        elif isinstance(data, dict):
+            csv_writer.writerow(data.values())
+        else:
+            raise ValueError("Invalid JSON format")
+
+    print(f"Conversion completed. CSV file saved to {csv_file_path}")
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    for i in range(5):
-        pass
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Example usageC:\Users\habiba.ahmed\Downloads\overtime data\ProductionOrderBatch30.json
+json_file_path = "C:/Users/habiba.ahmed/Downloads/overtime data/ProductionOrderBatch30.json"
+csv_file_path = "C:/Users/habiba.ahmed/Downloads/overtime data/example.csv"
+json_to_csv(json_file_path, csv_file_path)
