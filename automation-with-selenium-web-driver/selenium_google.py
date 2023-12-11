@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 from time import sleep
 
-driver = webdriver.Chrome()
+driver = webdriver.Firefox()
 driver.get("http://www.google.com")
 text_area = driver.find_element(By.ID, 'APjFqb')
 # before clearing , i need to wait for web page to load up
